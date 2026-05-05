@@ -10,8 +10,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.40"
-          memory: "170MB"
+          cpus: "0.35"
+          memory: "165MB"
 
   api2:
     image: luisbarbosagit/rinha-api-2026:v2
@@ -24,8 +24,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.40"
-          memory: "170MB"
+          cpus: "0.35"
+          memory: "165MB"
 
   nginx:
     image: nginx:1.27-alpine
@@ -41,5 +41,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.2"
-          memory: "10MB"
+          cpus: "0.3"
+          memory: "20MB"
