@@ -5,11 +5,11 @@ const client = createClient({ url: process.env.REDIS_URL });
 client.connect();
 
 export const searchItemsByVector = async (
-  normalizeVector: number[], // Array de 14 posições
+  normalizeVector: Float32Array, // Array de 14 posições
   KNN: number,
 ) => {
   // Converte o array para buffer binário (Float32) que o Redis exige
-  const floatBuffer = Buffer.from(new Float32Array(normalizeVector).buffer);
+  const floatBuffer = Buffer.from(normalizeVector);
 
   // Busca KNN no Redis
   const results = await client.ft.search(
@@ -25,8 +25,8 @@ export const searchItemsByVector = async (
 
   // Conta as fraudes nos vizinhos
   let fraudCount = 0;
-  results.documents.forEach((doc) => {
-    if (doc.value.label === "fraud") fraudCount++;
+  (results as any).documents?.forEach((doc: any) => {
+    if (doc.value?.label === "fraud") fraudCount++;
   });
 
   return fraudCount;

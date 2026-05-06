@@ -1,13 +1,24 @@
 services:
+  seeder:
+    build: .
+    command: node build/script.js
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - REDIS_URL=${REDIS_URL}
   api1:
     build: .
     container_name: rinha_api_1
     environment:
-      - REDIS_URL=redis://redis-stack:6379
-      - PORT=3000
+      - REDIS_URL=${REDIS_URL}
+      - PORT=${APP_PORT}
     expose:
       - "3000"
     restart: unless-stopped
+    depends_on:
+      seeder:
+        condition: service_completed_successfully
     deploy:
       resources:
         limits:
@@ -18,11 +29,14 @@ services:
     build: .
     container_name: rinha_api_2
     environment:
-      - REDIS_URL=redis://redis-stack:6379
-      - PORT=3000
+      - REDIS_URL=${REDIS_URL}
+      - PORT=${APP_PORT}
     expose:
       - "3000"
     restart: unless-stopped
+    depends_on:
+      seeder:
+        condition: service_completed_successfully
     deploy:
       resources:
         limits:

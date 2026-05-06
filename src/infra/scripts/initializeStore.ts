@@ -35,6 +35,10 @@ async function initializeRedisStore() {
         M: 16,
         EF_CONSTRUCTION: 200,
       },
+      "$.label": {
+        type: "TEXT" as any,
+        AS: "label",
+      },
     },
     {
       ON: "JSON",
