@@ -1,0 +1,29 @@
+{
+  "name": "rinha-backend-2026",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API minimalista focada em performance",
+  "main": "build/server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/server.ts src/scripts/script.ts --format esm --out-dir build --clean",
+    "start": "node build/server.js",
+    "dev": "tsx watch src/server.ts",
+    "script": "node build/scripts/script.js",
+    "dev:script": "npx tsx  src/scripts/script.ts"
+  },
+  "dependencies": {
+    "fastify": "^5.6.1",
+    "hnswlib-node": "^3.0.0",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.6",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "typescript": "^5.9.3"
+  }
+}
