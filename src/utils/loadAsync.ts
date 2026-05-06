@@ -1,0 +1,21 @@
+export const CONSTANTS = {
+  max_amount: 10000,
+  max_installments: 12,
+  amount_vs_avg_ratio: 10,
+  max_minutes: 1440,
+  max_km: 1000,
+  max_tx_count_24h: 20,
+  max_merchant_avg_amount: 10000,
+};
+export const MCC_RISK = {
+  5411: 0.15,
+  5812: 0.3,
+  5912: 0.2,
+  5944: 0.45,
+  7801: 0.8,
+  7802: 0.75,
+  7995: 0.85,
+  4511: 0.35,
+  5311: 0.25,
+  5999: 0.5,
+};
