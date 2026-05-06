@@ -1,12 +1,18 @@
 services:
   seeder:
-    build: .
-    command: node build/script.js
+    build:
+      context: .
+      dockerfile: Dockerfile.seeder
     depends_on:
-      redis:
+      redis-stack:
         condition: service_healthy
     environment:
       - REDIS_URL=${REDIS_URL}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.6"
+          memory: "300MB"
   api1:
     build: .
     container_name: rinha_api_1
@@ -58,11 +64,27 @@ services:
       resources:
         limits:
           cpus: "0.4"
-          memory: "40MB"
+          memory: "50MB"
 
   redis-stack:
     image: redis/redis-stack-server:latest
     container_name: rinha_redis_stack
     ports:
       - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "0.6"
+          memory: "3.5GB"
+
+volumes:
+  redis_data:

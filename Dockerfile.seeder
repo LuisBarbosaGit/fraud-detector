@@ -1,0 +1,21 @@
+# Estágio de Build (Igual ao anterior)
+FROM node:24-alpine AS builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Estágio de Execução
+FROM node:24-alpine
+WORKDIR /app
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/package.json ./package.json
+
+# COPIA OS ARQUIVOS JSON (Apenas aqui!)
+COPY --from=builder /app/src/infra/files ./src/infra/files
+
+# O comando aqui é apenas o script
+CMD ["node", "build/infra/scripts/initializeStore.js"]

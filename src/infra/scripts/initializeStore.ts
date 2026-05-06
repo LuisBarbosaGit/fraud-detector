@@ -13,15 +13,14 @@ async function initializeRedisStore() {
   const client = createClient({ url: REDIS_URL });
   await client.connect();
 
+  const info = await client.ft.info(INDEX_NAME).catch(() => null);
+  if (info) {
+    console.log("Índice já existe no volume. Pulando alimentação...");
+    process.exit(0);
+  }
+
   console.log("Conectado ao Redis. Criando índice...");
 
-  // 1. Limpar índice existente se necessário
-  try {
-    await client.ft.dropIndex(INDEX_NAME);
-  } catch (e) {}
-
-  // 2. Criar o índice HNSW no Redis
-  // O Redis gerencia a memória do índice de forma nativa e eficiente
   await client.ft.create(
     INDEX_NAME,
     {
@@ -36,7 +35,7 @@ async function initializeRedisStore() {
         EF_CONSTRUCTION: 200,
       },
       "$.label": {
-        type: "TEXT" as any,
+        type: "NUMERIC" as any,
         AS: "label",
       },
     },
@@ -60,7 +59,7 @@ async function initializeRedisStore() {
     // Salvando como JSON no Redis
     batch.json.set(`ref:${i}`, "$", {
       vector: value.vector,
-      label: value.label === "fraud" ? "fraud" : "normal",
+      label: value.label === "fraud" ? 0 : 1,
     });
 
     i++;

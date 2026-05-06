@@ -25,9 +25,11 @@ export const searchItemsByVector = async (
 
   // Conta as fraudes nos vizinhos
   let fraudCount = 0;
-  (results as any).documents?.forEach((doc: any) => {
-    if (doc.value?.label === "fraud") fraudCount++;
-  });
+  const items = (results as any)?.documents ?? [];
+
+  for (let i = 0; i < items.length; i++) {
+    fraudCount += Number(items[i].value.label);
+  }
 
   return fraudCount;
 };

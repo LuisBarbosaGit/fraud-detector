@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "fastify": "^5.6.1",
-    "hnswlib-node": "^3.0.0",
     "redis": "^5.12.1",
     "stream-json": "^2.1.0",
     "tsup": "^8.5.0",
