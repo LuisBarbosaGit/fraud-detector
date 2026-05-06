@@ -14,7 +14,7 @@ export const fraudScoreController = async (
     });
   }
 
-  const { isAproved, score } = calculateFraudScore(parsedBody.data);
+  const { isAproved, score } = await calculateFraudScore(parsedBody.data);
 
   return reply.send({
     isAproved,
