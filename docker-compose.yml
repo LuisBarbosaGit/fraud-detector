@@ -1,8 +1,9 @@
 services:
   api1:
-    image: luisbarbosagit/rinha-api-2026:latest
+    build: .
     container_name: rinha_api_1
     environment:
+      - REDIS_URL=redis://redis-stack:6379
       - PORT=3000
     expose:
       - "3000"
@@ -11,12 +12,13 @@ services:
       resources:
         limits:
           cpus: "0.4"
-          memory: "160MB"
+          memory: "100MB"
 
   api2:
-    image: luisbarbosagit/rinha-api-2026:latest
+    build: .
     container_name: rinha_api_2
     environment:
+      - REDIS_URL=redis://redis-stack:6379
       - PORT=3000
     expose:
       - "3000"
@@ -25,7 +27,7 @@ services:
       resources:
         limits:
           cpus: "0.4"
-          memory: "160MB"
+          memory: "100MB"
 
   nginx:
     image: nginx:1.27-alpine
@@ -41,5 +43,12 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "0.2"
-          memory: "30MB"
+          cpus: "0.4"
+          memory: "40MB"
+
+  redis-stack:
+    image: redis/redis-stack-server:latest
+    container_name: rinha_redis_stack
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
