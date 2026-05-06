@@ -16,9 +16,9 @@ const {
   max_merchant_avg_amount,
 } = constantsToNormalize;
 
-const vector = new Float32Array(14);
+const vector = new Array(14);
 
-export const convertToVector = (data: FraudDetectionPayload): Float32Array => {
+export const convertToVector = (data: FraudDetectionPayload): number[] => {
   const { transaction, customer, merchant, terminal, last_transaction } = data;
 
   // [0] e [1]
