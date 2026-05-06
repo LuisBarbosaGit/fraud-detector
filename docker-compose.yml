@@ -1,6 +1,6 @@
 services:
   api1:
-    image: luisbarbosagit/rinha-api-2026:v6
+    image: luisbarbosagit/rinha-api-2026:v2
     container_name: rinha_api_1
     environment:
       - PORT=3000
@@ -14,7 +14,7 @@ services:
           memory: "160MB"
 
   api2:
-    image: luisbarbosagit/rinha-api-2026:v6
+    image: luisbarbosagit/rinha-api-2026:v2
     container_name: rinha_api_2
     environment:
       - PORT=3000
