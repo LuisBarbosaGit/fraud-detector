@@ -9,7 +9,7 @@ export const searchItemsByVector = async (
   KNN: number,
 ) => {
   // Converte o array para buffer binário (Float32) que o Redis exige
-  const floatBuffer = Buffer.from(normalizeVector);
+  const floatBuffer = Buffer.from(normalizeVector.buffer);
 
   // Busca KNN no Redis
   const results = await client.ft.search(
@@ -28,8 +28,10 @@ export const searchItemsByVector = async (
   const items = (results as any)?.documents ?? [];
 
   for (let i = 0; i < items.length; i++) {
-    fraudCount += Number(items[i].value.label);
+    fraudCount += Number(items[i].value?.label || 0);
   }
+
+  console.log(fraudCount);
 
   return fraudCount;
 };

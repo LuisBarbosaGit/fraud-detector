@@ -1,5 +1,5 @@
-export const minimalToAprove = 0.4;
-export const maxNeighbors = 10;
+export const minimalToAprove = 0.6;
+export const maxNeighbors = 5;
 export const constantsToNormalize = {
   max_amount: 10000,
   max_installments: 12,

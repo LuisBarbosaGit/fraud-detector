@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { fraudDetectionSchema } from "../schema.js";
-import { calculateFraudScore } from "../services/fraud/calculateFraudScore.js";
+import { calculateFraudScore } from "../services/calculateFraudScore.js";
 
 export const fraudScoreController = async (
   req: FastifyRequest,
@@ -14,10 +14,10 @@ export const fraudScoreController = async (
     });
   }
 
-  const { isAproved, score } = await calculateFraudScore(parsedBody.data);
+  const { approved, score } = await calculateFraudScore(parsedBody.data);
 
   return reply.send({
-    isAproved,
-    score,
+    approved,
+    fraud_score: score,
   });
 };

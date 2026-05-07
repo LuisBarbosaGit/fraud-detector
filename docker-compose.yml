@@ -72,19 +72,15 @@ services:
     ports:
       - "6379:6379"
       - "8001:8001"
-    volumes:
-      - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 15s
-      timeout: 3s
-      retries: 5
+      test:
+        ["CMD-SHELL", "redis-cli info persistence | grep loading:0 || exit 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
     restart: unless-stopped
     deploy:
       resources:
         limits:
-          cpus: "0.6"
-          memory: "3.5GB"
-
-volumes:
-  redis_data:
+          cpus: "0.8"
+          memory: "2.5GB"
